@@ -75,8 +75,15 @@ if request.status_code == 200:
     for table in tables:
         title = table.find('tr', attrs={'class': 'calendar-game-info'}).text
         a = title.split()
-        a = a[:-1]
-        b = ' '.join(a)
+      	
+      	if a[-1] == 'прогноз':
+      		a = a[:-1]
+      	else:
+      		pass
+
+      	global b
+      	b = ' '.join(a)
+        
 else:
     print("ERROR")
 
