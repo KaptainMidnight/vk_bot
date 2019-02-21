@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import vk_api
 from utils_1 import get_random_id
 import time
@@ -5,8 +7,7 @@ import requests
 from bs4 import BeautifulSoup as bs
 import json
 
-
-vk = vk_api.VkApi(token="secret_token")
+vk = vk_api.VkApi(token="f78c56b538331269843e0aac3b7744a83194f5653a6e5241ad4e4724116e7f7b61b7ffcc2eddfdff93fc7")
 
 
 def get_button(label, color, payload=""):
@@ -23,32 +24,32 @@ def get_button(label, color, payload=""):
 keyboard = {
     "one_time": False,
     "buttons":
-    [
-        [get_button(label="Кто сегодня играет", color="positive")],
-        [get_button(label="Новости футбола", color="primary")],
-    ]
+        [
+            [get_button(label="Кто сегодня играет", color="positive")],
+            [get_button(label="Новости футбола", color="primary")],
+        ]
 }
 
 keyboard_start = {
     "one_time": False,
     "buttons":
-    [
-        [get_button(label="Начать", color="primary")]
+        [
+            [get_button(label="Начать", color="primary")]
 
-    ]
+        ]
 }
 
 keyboard_league = {
     "one_time": True,
     "buttons":
-    [
         [
-            get_button(label="Bundesliga", color="negative"),
-            get_button(label="Premier League", color="primary"),
+            [
+                get_button(label="Bundesliga", color="negative"),
+                get_button(label="Premier League", color="primary"),
 
-        ],
-        [get_button(label="В главное меню", color="positive")],
-    ]
+            ],
+            [get_button(label="В главное меню", color="positive")],
+        ]
 }
 keyboard = json.dumps(keyboard, ensure_ascii=False).encode('utf-8')
 keyboard = str(keyboard.decode('utf-8'))
@@ -75,20 +76,20 @@ if request.status_code == 200:
     for table in tables:
         title = table.find('tr', attrs={'class': 'calendar-game-info'}).text
         a = title.split()
-      	
-      	if a[-1] == 'прогноз':
-      		a = a[:-1]
-      	else:
-      		pass
 
-      	global b
-      	b = ' '.join(a)
-        
+        if a[-1] == 'прогноз':
+            a = a[:-1]
+        else:
+            pass
+
+        b = ' '.join(a)
 else:
     print("ERROR")
 
 while True:
+    b = ' '.join(a)
     try:
+
         messages = vk.method("messages.getConversations", {"offset": 0, "count": 20})
         if messages["count"] >= 1:
             id = messages["items"][0]["last_message"]["from_id"]
